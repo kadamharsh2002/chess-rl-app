@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from .db.database import init_db
 
 app=FastAPI(
     title = "Chess RL API",
@@ -13,9 +14,17 @@ app=FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://localhost:5173"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+#When the API starts up -create all DB tables Autimatically
+@app.on_event("startup")
+async def startup():
+    await init_db()
+    print("✅ Database tables created!")
 
 @app.get("/")
 async def root():
