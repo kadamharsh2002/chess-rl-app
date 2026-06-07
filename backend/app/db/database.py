@@ -5,10 +5,16 @@ from .models import Base
 # Why async? Our API handles multiple requests at once
 # (WebSocket dashboard + game moves + training)
 # Async means it doesn't freeze while waiting for DB
-DATABASE_URL = "postgresql+asyncpg://chessuser:chesspass@127.0.0.1:5432/chessrl"
-engine=create_async_engine(
+DATABASE_URL = "postgresql+asyncpg://chessuser:chesspass@127.0.0.1:5433/chessrl"
+engine = create_async_engine(
     DATABASE_URL,
     echo=True,  #Logs all SQL queries - good for debugging
+    connect_args={
+        "ssl":False, # Disable SSL for local development. In production, use SSL for security.
+    }
+
+
+
 )
 
 AsyncSessionLocal = sessionmaker(
