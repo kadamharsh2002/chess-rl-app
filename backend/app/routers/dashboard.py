@@ -96,3 +96,25 @@ async def get_stats(db: AsyncSession = Depends(get_db)):
         ],
         "win_rate_history": win_rate_history
     }
+
+@router.get("/training")
+async def get_training_stats():
+    """Returns the training stats file directly"""
+    from ..rl.agent import get_stats, get_epsilon
+    stats = get_stats()
+    return {
+        "total_games": stats.get("total_games", 0),
+        "wins": stats.get("wins", 0),
+        "losses": stats.get("losses", 0),
+        "draws": stats.get("draws", 0),
+        "epsilon": round(get_epsilon(), 3),
+        "exploration_pct": round(get_epsilon() * 100, 1),
+        "loss_history": stats.get("loss_history", []),
+        "reward_history": stats.get("reward_history", []),
+        "win_rate_history": stats.get("win_rate_history", []),
+        "is_learning": (
+            stats["loss_history"][-1] < stats["loss_history"][0]
+            if len(stats.get("loss_history", [])) > 1
+            else False
+        )
+    }

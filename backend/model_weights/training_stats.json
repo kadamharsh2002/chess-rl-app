@@ -1,0 +1,22 @@
+{
+  "total_games": 3,
+  "wins": 1,
+  "losses": 2,
+  "draws": 0,
+  "epsilon": 0.8573749999999999,
+  "loss_history": [
+    0.1213,
+    0.1051,
+    0.0968
+  ],
+  "reward_history": [
+    -76.2866,
+    71.3871,
+    -69.5637
+  ],
+  "win_rate_history": [
+    0.0,
+    50.0,
+    33.3
+  ]
+}
